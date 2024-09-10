@@ -53,27 +53,41 @@ function vencimentoParcela(input) {
     let [dia, mes, ano] = dataInput.split('/');
     let dataEscolhida = new Date(ano, mes - 1, dia);
 
-    let dataFinal = input.value(adicionarDiasUteis(dataEscolhida, 6))
-    input.value(dataFinal)
+    let dataAtual = new Date();
+    dataAtual.setHours(0, 0, 0, 0);
 
-    var datasDeVencimento = [];
-
-    $('input[data-name="vencimentoDaParcela"]').each(function () {
-        var valorData = $(this).val().trim();
-
-        if (valorData !== '') {
-            var partesData = valorData.split('/');
-            var dataISO = new Date(partesData[2], partesData[1] - 1, partesData[0]);
-
-            datasDeVencimento.push(dataISO);
-        }
-    });
-
-    if (datasDeVencimento.length > 0) {
-        var menorData = new Date(Math.min.apply(null, datasDeVencimento));
-        var menorDataFormatada = menorData.toLocaleDateString('pt-BR');
-        $('#inpdataDeVencimento').val(menorDataFormatada)
+    if (dataEscolhida <= dataAtual) {
+        cryo_alert('<p style="color: red; text-align: center;">A data escolhida não pode ser a data atual ou uma data anterior.</p>');
+        input.value = '';
+        $('#inptipoDePedido').hide();
+        return;
     } else {
-        console.log('Nenhuma data de vencimento encontrada.');
+
+        if (isFeriadoOuFimDeSemana(dataEscolhida)) {
+            let dataFinal = adicionarDiasUteis(dataEscolhida, 1)
+            let dataFinalFormatada = dataFinal.toLocaleDateString('pt-BR');
+            input.value = dataFinalFormatada;
+        }
+
+        var datasDeVencimento = [];
+
+        $('input[data-name="vencimentoDaParcela"]').each(function () {
+            var valorData = $(this).val().trim();
+
+            if (valorData !== '') {
+                var partesData = valorData.split('/');
+                var dataISO = new Date(partesData[2], partesData[1] - 1, partesData[0]);
+
+                datasDeVencimento.push(dataISO);
+            }
+        });
+
+        if (datasDeVencimento.length > 0) {
+            var menorData = new Date(Math.min.apply(null, datasDeVencimento));
+            var menorDataFormatada = menorData.toLocaleDateString('pt-BR');
+            $('#inpdataDeVencimento').val(menorDataFormatada)
+        } else {
+            console.log('Nenhuma data de vencimento encontrada.');
+        }
     }
 }
