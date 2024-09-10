@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    const APP = new APP();
+    const APP = new DadosAplicativo();
     APP.init();
     console.log(APP.REQ, APP.INST, APP.SERV);
 });
 
-class APP {
+class DadosAplicativo {
     constructor() {
         this.REQ = null;
         this.INST = null;
