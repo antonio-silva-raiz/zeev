@@ -49,7 +49,12 @@ function validaDataVencimento(input) {
 }
 
 function vencimentoParcela(input) {
-    let dataSelecionada = input.value
+    let dataInput = input.value;
+    let [dia, mes, ano] = dataInput.split('/');
+    let dataEscolhida = new Date(ano, mes - 1, dia);
+
+    let dataFinal = input.value(adicionarDiasUteis(dataEscolhida, 6))
+    input.value(dataFinal)
 
     var datasDeVencimento = [];
 
@@ -67,7 +72,7 @@ function vencimentoParcela(input) {
     if (datasDeVencimento.length > 0) {
         var menorData = new Date(Math.min.apply(null, datasDeVencimento));
         var menorDataFormatada = menorData.toLocaleDateString('pt-BR');
-        console.log('A menor data de vencimento é: ' + menorDataFormatada);
+        $('#inpdataDeVencimento').val(menorDataFormatada)
     } else {
         console.log('Nenhuma data de vencimento encontrada.');
     }
