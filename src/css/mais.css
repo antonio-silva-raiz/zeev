@@ -1,3 +1,9 @@
+#BoxFrmExecute{
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+}
+
 #group2136{
 	display: none !important;
 }
