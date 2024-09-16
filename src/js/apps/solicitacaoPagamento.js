@@ -22,28 +22,6 @@ $(document).ready(function () {
             $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
         });
     });
-
-    $('#inpcentroDeCusto').on('change', function () {
-        var codCCusto = $('#inpcodCCusto').val();
-        var codColigada = $('#inpcodColigada').val();
-
-        var url = `${url}/framework/v1/consultaSQLServer/RealizaConsulta/ZEEV.999/0/w?parameters=CODCOLIGADA=${codColigada};CODCCUSTO=${codCCusto};`;
-
-        // Realiza a requisição AJAX
-        $.ajax({
-            url: url,
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', auth);
-            },
-            success: function (data) {
-                $('#inpaprovadorCCusto').val(data[0].APROVADOR3)
-            },
-            error: function (xhr, status, error) {
-                console.error('Erro na consulta:', error);
-            }
-        });
-    });
 });
 
 /*
