@@ -13,14 +13,7 @@ $(document).ready(function () {
 
     $('#btnInsertNewRow').on('click', function () {
         $('input[id="inpnumeroDaParcela"]').each(function (index) {
-            $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
-        });
-    });
-
-    $('#btnDeletewRow').on('click', function () {
-        $('input[id="inpnumeroDaParcela"]').each(function (index) {
-            $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
-        });
+            $(this).val(index + 1);
     });
 
     $('#inpcentroDeCusto').on('change', function () {
