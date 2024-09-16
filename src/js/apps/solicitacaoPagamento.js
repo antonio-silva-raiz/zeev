@@ -7,21 +7,43 @@ $(document).ready(function () {
     var dataVencimento = adicionarDiasUteis(dataAtual, 6);
     $('#inpdataDeVencimento').val(formatarData(dataVencimento));
 
-    $('input[id="inpnumeroDaParcela"]').each(function(index) {
+    $('input[id="inpnumeroDaParcela"]').each(function (index) {
         $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
-      });
-    
-      $('#btnInsertNewRow').on('click', function() {
-        $('input[id="inpnumeroDaParcela"]').each(function(index) {
-          $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
+    });
+
+    $('#btnInsertNewRow').on('click', function () {
+        $('input[id="inpnumeroDaParcela"]').each(function (index) {
+            $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
         });
-      });
-    
-      $('#btnDeletewRow').on('click', function() {
-        $('input[id="inpnumeroDaParcela"]').each(function(index) {
-          $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
+    });
+
+    $('#btnDeletewRow').on('click', function () {
+        $('input[id="inpnumeroDaParcela"]').each(function (index) {
+            $(this).val(index + 1); // Define o valor do campo como o número do contador, começando de 1
         });
-      });
+    });
+
+    $('#inpcentroDeCusto').on('change', function () {
+        var codCCusto = $('#inpcodCCusto').val();
+        var codColigada = $('#inpcodColigada').val();
+
+        var url = `${url}/framework/v1/consultaSQLServer/RealizaConsulta/ZEEV.999/0/w?parameters=CODCOLIGADA=${codColigada};CODCCUSTO=${codCCusto};`;
+
+        // Realiza a requisição AJAX
+        $.ajax({
+            url: url,
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', auth);
+            },
+            success: function (data) {
+                $('#inpaprovadorCCusto').val(data[0].APROVADOR3)
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na consulta:', error);
+            }
+        });
+    });
 });
 
 /*
@@ -101,7 +123,7 @@ function vencimentoParcela(input) {
 
         if (datasDeVencimento.length > 0) {
             var menorData = new Date(Math.min.apply(null, datasDeVencimento));
-            
+
             const diferencaTempo = menorData - dataAtual;
             const diferencaDias = diferencaTempo / (1000 * 3600 * 24);
 
