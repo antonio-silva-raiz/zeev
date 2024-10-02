@@ -17,27 +17,27 @@ $(document).ready(function () {
         });
     });
 
-    $('#inpcentroDeCusto').on('change', function () {
-        var codCCusto = $('#inpcodCCusto').val();
-        var codColigada = $('#inpcodColigada').val();
+    // $('#inpcentroDeCusto').on('change', function () {
+    //     var codCCusto = $('#inpcodCCusto').val();
+    //     var codColigada = $('#inpcodColigada').val();
 
-        var url = `${url}/framework/v1/consultaSQLServer/RealizaConsulta/ZEEV.999/0/w?parameters=CODCOLIGADA=${codColigada};CODCCUSTO=${codCCusto};`;
+    //     var url = `${url}/framework/v1/consultaSQLServer/RealizaConsulta/ZEEV.999/0/w?parameters=CODCOLIGADA=${codColigada};CODCCUSTO=${codCCusto};`;
 
-        // Realiza a requisição AJAX
-        $.ajax({
-            url: url,
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', auth);
-            },
-            success: function (data) {
-                $('#inpaprovadorCCusto').val(data[0].APROVADOR3)
-            },
-            error: function (xhr, status, error) {
-                console.error('Erro na consulta:', error);
-            }
-        });
-    });
+    //     // Realiza a requisição AJAX
+    //     $.ajax({
+    //         url: url,
+    //         type: 'GET',
+    //         beforeSend: function (xhr) {
+    //             xhr.setRequestHeader('Authorization', auth);
+    //         },
+    //         success: function (data) {
+    //             $('#inpaprovadorCCusto').val(data[0].APROVADOR3)
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error('Erro na consulta:', error);
+    //         }
+    //     });
+    // });
 });
 
 /*
