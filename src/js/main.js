@@ -6,31 +6,31 @@ $(document).ready(function () {
     // Verifica se o jQuery está funcionando e se os elementos existem
     console.log('Existem', $('.card-title').length, 'elementos .card-title na página.');
 
-    // Verifica se os elementos estão presentes antes de tentar manipulá-los
-    if ($('.card-title').length === 0) {
-        console.log('Nenhum elemento com a classe .card-title encontrado.');
-    }
+    // Configuração do MutationObserver para monitorar mudanças no DOM
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                // Verifica se algum novo nó adicionado contém .card-title
+                $(mutation.addedNodes).find('.card-title').each(function() {
+                    console.log('Novo elemento .card-title encontrado:', $(this).text());
+                    if ($(this).text().startsWith('[Atendimento]')) {
+                        var icon = $('<img>', {
+                            src: "https://cdn-icons-png.flaticon.com/512/3889/3889482.png",
+                            alt: "Atendimento",
+                            style: "width: 32px; height: 32px; margin-right: 10px;"
+                        });
+                        $(this).prepend(icon);
+                        console.log('Título com ícone: ' + $(this).text());
+                    }
+                });
+            }
+        });
+    });
 
-    // Itera sobre todos os títulos com a classe '.card-title'
-    $('.card-title').each(function () {
-        // Verifica o título atual
-        console.log('Verificando título:', $(this).text());
-
-        // Verifica se o texto do título começa com '[Atendimento]'
-        if ($(this).text().startsWith('[Atendimento]')) {
-            // Cria a imagem
-            var icon = $('<img>', {
-                src: "https://cdn-icons-png.flaticon.com/512/3889/3889482.png",
-                alt: "Atendimento",
-                style: "width: 20px; height: 20px; margin-right: 10px;"
-            });
-
-            // Adiciona a imagem antes do texto do título
-            $(this).prepend(icon);
-
-            // Exibe o título que recebeu o ícone no console
-            console.log('Título com ícone: ' + $(this).text());
-        }
+    // Inicia o MutationObserver no body da página
+    observer.observe(document.body, {
+        childList: true, // Monitorar adição/remoção de filhos diretos
+        subtree: true    // Monitorar alterações em todos os níveis do DOM
     });
     ocultaCancelar();
 
