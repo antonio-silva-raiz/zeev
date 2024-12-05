@@ -89,6 +89,20 @@ $(document).ready(function () {
                             style: "width: 32px; height: 32px; margin-right: 10px;"
                         });
                         $(this).prepend(icon);
+                    } else if($(this).text().startsWith('[Cobrança]')){
+                        var icon = $('<img>', {
+                            src: "https://cdn-icons-png.flaticon.com/512/6328/6328321.png",
+                            alt: "Cobrança",
+                            style: "width: 32px; height: 32px; margin-right: 10px;"
+                        });
+                        $(this).prepend(icon);
+                    } else if($(this).text().startsWith('[TOTVS]')){
+                        var icon = $('<img>', {
+                            src: "https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png",
+                            alt: "TOTVS",
+                            style: "width: 32px; height: 32px; margin-right: 10px;"
+                        });
+                        $(this).prepend(icon);
                     }
                 });
             }
