@@ -1,5 +1,3 @@
-var jq = jQuery.noConflict();
-
 jq(document).ready(function () {
     //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
     console.log("Versão do JQuery: ", jq.fn.jquery);
