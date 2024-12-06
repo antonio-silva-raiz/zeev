@@ -2,8 +2,7 @@ jq(document).ready(function () {
     //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
     console.log("Versão do JQuery: ", jq.fn.jquery);
 
-    // Verifica se o jQuery está funcionando e se os elementos existem
-    console.log('Existem', jq('.card-title').length, 'elementos .card-title na página.');
+    jq('#aHeaderMenuHomeName').text('Ticket Raiz');
 
     // Configuração do MutationObserver para monitorar mudanças no DOM
     const observer = new MutationObserver(function (mutations) {
