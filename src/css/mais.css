@@ -39,26 +39,6 @@
     }
 }
 
-.custom-control-label::before,
-.custom-control-label::after {
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: inline-block !important;
-    position: relative !important;
-    z-index: 10; /* Garante que o pseudo-elemento fique acima de outros elementos */
-}
-
-@media screen and (max-width: 767px) {
-    /* Garantir visibilidade em telas menores, caso haja algum comportamento específico */
-    .custom-control-label::before,
-    .custom-control-label::after {
-        visibility: visible !important;
-        opacity: 1 !important;
-        display: inline-block !important;
-        position: relative !important;
-    }
-}
-
 #userAuthorizationBox {
 	display: none!important;
 }
