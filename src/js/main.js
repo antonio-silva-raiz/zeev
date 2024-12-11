@@ -113,6 +113,107 @@ jq(document).ready(function () {
         subtree: true    // Monitorar alterações em todos os níveis do DOM
     });
 
+    if (window.location.href === "https://raizeducacao.zeev.it/my/services") {
+        async function fetchAssignments() {
+            const tokenElement = jq('input[name="__RequestVerificationToken"]');
+            const token = tokenElement.length ? tokenElement.val() : null;
+    
+            if (!token) {
+                console.error("Token de verificação não encontrado.");
+                return;
+            }
+    
+            const url = "https://raizeducacao.zeev.it/api/internal/bpms/1.0/assignments?pagenumber=1&simulation=N&codreport=6x6Iw2g5qn7z%252Bt743f1Lbg%253D%253D&reporttype=mytasks&codflowexecute=&=&codtask=&taskstatus=S&field=&operator=Equal&fieldvaluetext=&fielddatasource=&fieldvalue=&requester=&codrequester=&=&tasklate=Late&startbegin=&startend=&sortfield=&sortdirection=ASC&keyword=&chkReload=on";
+    
+            const headers = {
+                "Accept": "*/*",
+                "Content-Type": "application/json",
+                "x-sml-antiforgerytoken": token
+            };
+    
+            try {
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: headers,
+                    credentials: "include"
+                });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.success.itens) {
+                        const items = data.success.itens;
+    
+                        // Cria a tabela HTML
+                        let tableRows = '';
+                        items.forEach(item => {
+                            tableRows += `
+                        <tr>
+                            <td style="white-space: nowrap;"><a href="${item.lk}" target="_blank">${item.cfe}</a></td>
+                            <td style="color: #dc3545; padding: 3px 10px; white-space: nowrap;">${item.el}</td>
+                            <td style="white-space: nowrap;">${item.t}</td>
+                        </tr>`;
+                        });
+    
+                        // Supondo que `items` contenha os dados retornados
+                        const totalSolicitacoes = items.length;
+    
+                        const modalHTML = `
+                        <div id="modalOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 9998 !important;"></div>
+                        <div id="colorbox" class="" role="dialog" tabindex="-1" style="display: block; visibility: visible; top: 50%; left: 50%; transform: translate(-50%, -50%); position: fixed; width: 400px; height: 350px; background: white; z-index: 9999 !important; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); padding: 16px; overflow: hidden;">
+                          <h2 style="margin: 0; text-align: center; padding: 3px 0; font-size: 18px;">Atenção!</h2>
+                          <p style="text-align: left; font-size: 14px; margin-bottom: 3px;">
+                            Você possui um total de <strong style="color: #dc3545">${totalSolicitacoes}</strong> solicitações com o SLA expirado.
+                          </p>
+                          <div style="overflow-x: auto; overflow-y: auto; max-height: 200px;">
+                            <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 3px;">
+                              <thead>
+                                <tr style="border: none;">
+                                  <th style="border: none; padding: 3px; white-space: nowrap;">#</th>
+                                  <th style="border: none; padding: 3px 10px; white-space: nowrap;">Venc.</th>
+                                  <th style="border: none; padding: 3px; white-space: nowrap;">Tarefa</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                ${tableRows}
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="spaced text-right" style="margin-top: 3px; text-align: center;">
+                            <button type="button" class="btn btn-success" id="closeModalBtn" style="padding: 6px 12px;">OK</button>
+                          </div>
+                        </div>`;
+    
+                        // Adicionando o modal ao DOM
+                        jq('body').append(modalHTML);
+    
+                        // Adiciona evento ao botão OK para fechar o modal
+                        jq('#closeModalBtn').on('click', function () {
+                            // Remove o modal e o overlay
+                            jq('#colorbox').remove();
+                            jq('#modalOverlay').remove();
+    
+                            // Remove qualquer estilo residual que possa bloquear interações
+                            jq('body').css({ pointerEvents: 'auto', overflow: 'auto' });
+                        });
+    
+                    } else {
+                        console.warn("Nenhum item encontrado ou estrutura inesperada.");
+                    }
+                } else {
+                    console.error("Erro HTTP:", response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+            }
+        }
+    
+        // Chamar a função
+        fetchAssignments();
+    } else {
+        console.log("A URL da página não corresponde à esperada.");
+    }
+    
+
     ocultaCancelar();
 });
 
