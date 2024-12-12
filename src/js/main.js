@@ -15,7 +15,7 @@ jq(document).ready(function () {
   
   //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
   console.log("Versão do JQuery: ", jq.fn.jquery);
-  if(window.location.href === "https://raizeducacao.zeev.it/my/notifications"){
+  if(window.location.href === "https://raizeducacao.zeev.it/my/notifications" || window.location.href === "https://raizeducacao.zeev.it/my/notifications#"){
     // Alterar o título principal
     jq('.page-title h1').each(function() {
         const originalText = jq(this).text();
