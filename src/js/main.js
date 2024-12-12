@@ -140,7 +140,7 @@ jq(document).ready(function () {
     
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.success && data.success.itens) {
+                    if (data.success && data.success.itens && data.success.itens.length > 0) {
                         const items = data.success.itens;
     
                         // Cria a tabela HTML
