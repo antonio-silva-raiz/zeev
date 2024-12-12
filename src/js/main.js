@@ -1,5 +1,6 @@
 jq(document).ready(function () {
   //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
+//MOSTRA A VERSÃO DO JQUERY NO CONSOLE
   console.log("Versão do JQuery: ", jq.fn.jquery);
 
   jq('#aHeaderMenuHomeName').text('Ticket Raiz');
