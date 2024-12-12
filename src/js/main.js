@@ -1,8 +1,34 @@
 jq(document).ready(function () {
 
   jq('a[href="https://raizeducacao.zeev.it/my/notifications"]').removeClass("d-lg-none");
+
+    // Alterar texto "Notificações" para "Mensagens"
+  jq('a.nav-link.active').each(function() {
+      const spanElement = jq(this).find('span').first(); // Seleciona o primeiro <span> dentro do <a>
+      const originalText = spanElement.text();
+      const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+      spanElement.text(updatedText);
+  });
+
+  // Remover a classe d-none do badge de contagem de notificações
+  jq('a.nav-link.active .notification-count').removeClass('d-none');
+  
   //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
   console.log("Versão do JQuery: ", jq.fn.jquery);
+  if(window.location.href === "https://raizeducacao.zeev.it/my/notifications"){
+    // Alterar o título principal
+    jq('.page-title h1').each(function() {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+        jq(this).text(updatedText);
+    });
+    // Alterar o botão "Nova notificação"
+    jq('.btn-new-notification span').each(function() {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/notificação/g, 'mensagem');
+        jq(this).text(updatedText);
+    });
+  }
 
   jq('#aHeaderMenuHomeName').text('Ticket Raiz');
 
