@@ -1,4 +1,6 @@
 jq(document).ready(function () {
+
+  jq('a[href="https://raizeducacao.zeev.it/my/notifications"]').removeClass("d-lg-none");
   //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
   console.log("Versão do JQuery: ", jq.fn.jquery);
 
