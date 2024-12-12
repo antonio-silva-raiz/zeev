@@ -3,7 +3,7 @@ jq(document).ready(function () {
   jq('a[href="https://raizeducacao.zeev.it/my/notifications"]').removeClass("d-lg-none");
 
     // Alterar texto "Notificações" para "Mensagens"
-  jq('a.nav-link.active').each(function() {
+  jq('a[href="https://raizeducacao.zeev.it/my/notifications"]').each(function() {
       const spanElement = jq(this).find('span').first(); // Seleciona o primeiro <span> dentro do <a>
       const originalText = spanElement.text();
       const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
@@ -11,7 +11,7 @@ jq(document).ready(function () {
   });
 
   // Remover a classe d-none do badge de contagem de notificações
-  jq('a.nav-link.active .notification-count').removeClass('d-none');
+  jq('a[href="https://raizeducacao.zeev.it/my/notifications"] .notification-count').removeClass('d-none');
   
   //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
   console.log("Versão do JQuery: ", jq.fn.jquery);
