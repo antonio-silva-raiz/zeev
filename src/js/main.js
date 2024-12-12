@@ -206,7 +206,7 @@ async function verificaAtrasos() {
         });
 
       } else {
-        console.warn("Nenhum item encontrado ou estrutura inesperada.");
+        console.warn("Nenhum item encontrado ou estrutura inesperada");
       }
     } else {
       console.error("Erro HTTP:", response.status, response.statusText);
