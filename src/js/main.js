@@ -164,7 +164,7 @@ jq(document).ready(function () {
                           <p style="text-align: left; font-size: 14px; margin-bottom: 3px;">
                             Você possui um total de <strong style="color: #dc3545">${totalSolicitacoes}</strong> solicitações com o SLA expirado.
                           </p>
-                          <div style="overflow-x: auto; overflow-y: auto; max-height: 200px;">
+                          <div style="overflow-x: auto; overflow-y: auto; height: 200px;">
                             <table style="width: 100%; text-align: left; border-collapse: collapse; margin-top: 3px;">
                               <thead>
                                 <tr style="border: none;">
