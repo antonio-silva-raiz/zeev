@@ -157,7 +157,7 @@ async function verificaAtrasos() {
         items.forEach(item => {
           tableRows += `
           <tr>
-            <td style="white-space: nowrap;"><a data-href="${item.lk}"  class="prefetch" onclick="return tasklist_open_task(this, false)" onkeypress="if(event.keyCode==13) return tasklist_open_task(this, false)" data-key="${item.cfetp}" tabindex="0" role="button">${item.cfe}</a></td>
+            <td style="white-space: nowrap;"><a href="${item.lk}" data-key="${item.cfetp}" tabindex="0" role="button">${item.cfe}</a></td>
             <td style="color: #dc3545; padding: 3px 10px; white-space: nowrap;">${item.el}</td>
             <td style="white-space: nowrap;">${item.t}</td>
           </tr>`;
