@@ -28,6 +28,18 @@ jq(document).ready(function () {
         const updatedText = originalText.replace(/notificação/g, 'mensagem');
         jq(this).text(updatedText);
     });
+        // Selecionar o botão "Enviar notificação" dentro do modal-footer e alterar o texto
+    jq('#LkSend').each(function() {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/Enviar notificação/g, 'Enviar mensagem');
+        jq(this).text(updatedText);
+    });
+        // Alterar o título "Notificação" para "Mensagem" no modal-header
+    jq('.modal-header.bg-white h1').each(function() {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/Notificação/g, 'Mensagem');
+        jq(this).text(updatedText);
+    });
   }
 
   jq('#aHeaderMenuHomeName').text('Ticket Raiz');
