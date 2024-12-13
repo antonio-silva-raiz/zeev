@@ -1,87 +1,101 @@
 jq(document).ready(function () {
-    const dominio = 'https://raizeducacao.zeev.it/';
-    var page = window.location.href;
+  const dominio = 'https://raizeducacao.zeev.it/';
+  var page = window.location.href;
 
-    jq(`a[href="${dominio}my/notifications"]`).removeClass("d-lg-none");
+  jq(`a[href="${dominio}my/notifications"]`).removeClass("d-lg-none");
 
-    jq(`a[href="${dominio}my/notifications"]`).each(function () {
-        const spanElement = jq(this).find('span').first();
-        const originalText = spanElement.text();
-        const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
-        spanElement.text(updatedText);
+  jq(`a[href="${dominio}my/notifications"]`).each(function () {
+    const spanElement = jq(this).find('span').first();
+    const originalText = spanElement.text();
+    const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+    spanElement.text(updatedText);
+  });
+
+  jq(`a[href="${dominio}my/notifications"] .notification-count`).removeClass('d-none');
+
+  if (page === `${dominio}my/notifications` || page === `${dominio}my/notifications#`) {
+    jq('.page-title h1').each(function () {
+      const originalText = jq(this).text();
+      const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+      jq(this).text(updatedText);
     });
+    jq('.btn-new-notification span').each(function () {
+      const originalText = jq(this).text();
+      const updatedText = originalText.replace(/notificação/g, 'mensagem');
+      jq(this).text(updatedText);
+    });
+  }
 
-    jq(`a[href="${dominio}my/notifications"] .notification-count`).removeClass('d-none');
+  jq('#aHeaderMenuHomeName').text('Ticket Raiz');
 
-    if (page === `${dominio}my/notifications` || page === `${dominio}my/notifications#`) {
-        jq('.page-title h1').each(function () {
-            const originalText = jq(this).text();
-            const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
-            jq(this).text(updatedText);
-        });
-        jq('.btn-new-notification span').each(function () {
-            const originalText = jq(this).text();
-            const updatedText = originalText.replace(/notificação/g, 'mensagem');
-            jq(this).text(updatedText);
-        });
-    }
+  const observer = new MutationObserver(function (mutations, observerInstance) {
+    observerInstance.disconnect(); // Pausa o observer para evitar loops
 
-    jq('#aHeaderMenuHomeName').text('Ticket Raiz');
+    mutations.forEach(function (mutation) {
+      if (mutation.type === 'childList') {
+        switch (page) {
+          case `${dominio}my/notifications#`:
+            // Selecionar o botão "Enviar notificação" dentro do modal-footer e alterar o texto
+            jq('#LkSend').each(function () {
+              const originalText = jq(this).text();
+              const updatedText = originalText.replace(/Enviar notificação/g, 'Enviar mensagem');
+              jq(this).text(updatedText);
+            });
+            // Alterar o título "Notificação" para "Mensagem" no modal-header
+            jq('.modal-header.bg-white h1').each(function () {
+              const originalText = jq(this).text();
+              const updatedText = originalText.replace(/Notificação/g, 'Mensagem');
+              jq(this).text(updatedText);
+            });
+            break;
+          case `${dominio}my/services`:
+            jq(mutation.addedNodes).find('.card-title').each(function () {
+              const text = jq(this).text();
 
-    const observer = new MutationObserver(function (mutations, observerInstance) {
-        observerInstance.disconnect(); // Pausa o observer para evitar loops
+              const iconMap = {
+                '[Atendimento]': "https://cdn-icons-png.flaticon.com/512/89/89719.png",
+                '[BI]': "https://img.icons8.com/?size=512&id=03aYi0fY0D9X&format=png",
+                '[Operações]': "https://cdn-icons-png.flaticon.com/512/995/995320.png",
+                '[P&C]': "https://cdn-icons-png.flaticon.com/512/2688/2688387.png",
+                '[Comercial]': "https://cdn-icons-png.flaticon.com/512/2104/2104014.png",
+                '[Recursos Humanos]': "https://cdn-icons-png.flaticon.com/512/271/271332.png",
+                '[Departamento Pessoal]': "https://cdn-icons-png.flaticon.com/512/1642/1642054.png",
+                '[Fiscal]': "https://cdn-icons-png.flaticon.com/512/3358/3358993.png",
+                '[Financeiro]': "https://cdn-icons-png.flaticon.com/512/2543/2543363.png",
+                '[Jurídico]': "https://cdn-icons-png.flaticon.com/512/1130/1130019.png",
+                '[TI]': "https://cdn-icons-png.flaticon.com/512/897/897219.png",
+                '[Cobrança]': "https://cdn-icons-png.flaticon.com/512/6328/6328321.png",
+                '[TOTVS]': "https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png"
+              };
 
-        mutations.forEach(function (mutation) {
-            if (mutation.type === 'childList') {
-                if (page === `${dominio}my/services`) {
-                    jq(mutation.addedNodes).find('.card-title').each(function () {
-                        const text = jq(this).text();
-
-                        const iconMap = {
-                            '[Atendimento]': "https://cdn-icons-png.flaticon.com/512/89/89719.png",
-                            '[BI]': "https://img.icons8.com/?size=512&id=03aYi0fY0D9X&format=png",
-                            '[Operações]': "https://cdn-icons-png.flaticon.com/512/995/995320.png",
-                            '[P&C]': "https://cdn-icons-png.flaticon.com/512/2688/2688387.png",
-                            '[Comercial]': "https://cdn-icons-png.flaticon.com/512/2104/2104014.png",
-                            '[Recursos Humanos]': "https://cdn-icons-png.flaticon.com/512/271/271332.png",
-                            '[Departamento Pessoal]': "https://cdn-icons-png.flaticon.com/512/1642/1642054.png",
-                            '[Fiscal]': "https://cdn-icons-png.flaticon.com/512/3358/3358993.png",
-                            '[Financeiro]': "https://cdn-icons-png.flaticon.com/512/2543/2543363.png",
-                            '[Jurídico]': "https://cdn-icons-png.flaticon.com/512/1130/1130019.png",
-                            '[TI]': "https://cdn-icons-png.flaticon.com/512/897/897219.png",
-                            '[Cobrança]': "https://cdn-icons-png.flaticon.com/512/6328/6328321.png",
-                            '[TOTVS]': "https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png"
-                        };
-
-                        for (const [prefix, iconSrc] of Object.entries(iconMap)) {
-                            if (text.startsWith(prefix) && jq(this).find('img').length === 0) {
-                                const icon = jq('<img>', {
-                                    src: iconSrc,
-                                    alt: prefix.replace('[', '').replace(']', ''),
-                                    style: "width: 32px; height: 32px; margin-right: 10px;"
-                                });
-                                jq(this).prepend(icon);
-                                break;
-                            }
-                        }
-                    });
-
-                    jq('.fav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/KzWHSJL9/coracao.png" alt="Ícone de favorito">');
-                    jq('.unfav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/2jHg6F7L/coracao-3.png" alt="Ícone de favorito">');
+              for (const [prefix, iconSrc] of Object.entries(iconMap)) {
+                if (text.startsWith(prefix) && jq(this).find('img').length === 0) {
+                  const icon = jq('<img>', {
+                    src: iconSrc,
+                    alt: prefix.replace('[', '').replace(']', ''),
+                    style: "width: 32px; height: 32px; margin-right: 10px;"
+                  });
+                  jq(this).prepend(icon);
+                  break;
                 }
-            }
-        });
+              }
+            });
 
-        observerInstance.observe(document.body, { childList: true, subtree: true }); // Reinicia o observer
+            jq('.fav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/KzWHSJL9/coracao.png" alt="Ícone de favorito">');
+            jq('.unfav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/2jHg6F7L/coracao-3.png" alt="Ícone de favorito">');
+            break;
+        }
+      }
     });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    observerInstance.observe(document.body, { childList: true, subtree: true }); // Reinicia o observer
+  });
 
-    if (page === `${dominio}my/services`) {
-        verificaAtrasos();
-    } else {
-        console.log("A URL da página não corresponde à esperada.");
-    }
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  if (page === `${dominio}my/services`) {
+    verificaAtrasos();
+  }
 });
 
 async function verificaAtrasos() {
