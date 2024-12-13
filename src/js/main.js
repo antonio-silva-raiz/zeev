@@ -66,7 +66,7 @@ jq(document).ready(function () {
                         }
                     });
 
-                    jq('.fav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/6pBZmRFz/coracao-4.png" alt="Ícone de favorito">');
+                    jq('.fav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/KzWHSJL9/coracao.png" alt="Ícone de favorito">');
                     jq('.unfav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/2jHg6F7L/coracao-3.png" alt="Ícone de favorito">');
                 }
             }
@@ -82,8 +82,6 @@ jq(document).ready(function () {
     } else {
         console.log("A URL da página não corresponde à esperada.");
     }
-
-    ocultaCancelar();
 });
 
 async function verificaAtrasos() {
