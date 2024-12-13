@@ -1,44 +1,33 @@
 jq(document).ready(function () {
 
-  jq('a[href="https://raizeducacao.zeev.it/my/notifications"]').removeClass("d-lg-none");
+  var page = window.location.href;
+  const dominio = 'https://raizeducacao.zeev.it/'
 
-    // Alterar texto "Notificações" para "Mensagens"
-  jq('a[href="https://raizeducacao.zeev.it/my/notifications"]').each(function() {
-      const spanElement = jq(this).find('span').first(); // Seleciona o primeiro <span> dentro do <a>
-      const originalText = spanElement.text();
-      const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
-      spanElement.text(updatedText);
+  jq(`a[href="${dominio}my/notifications"]`).removeClass("d-lg-none");
+
+  // Alterar texto "Notificações" para "Mensagens"
+  jq(`a[href="${dominio}my/notifications"]`).each(function () {
+    const spanElement = jq(this).find('span').first(); // Seleciona o primeiro <span> dentro do <a>
+    const originalText = spanElement.text();
+    const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+    spanElement.text(updatedText);
   });
 
   // Remover a classe d-none do badge de contagem de notificações
-  jq('a[href="https://raizeducacao.zeev.it/my/notifications"] .notification-count').removeClass('d-none');
-  
-  //MOSTRA A VERSÃO DO JQUERY NO CONSOLE
-  console.log("Versão do JQuery: ", jq.fn.jquery);
-  if(window.location.href === "https://raizeducacao.zeev.it/my/notifications" || window.location.href === "https://raizeducacao.zeev.it/my/notifications#"){
+  jq(`a[href="${dominio}my/notifications"] .notification-count`).removeClass('d-none');
+
+  if (page === `${dominio}my/notifications` || page === `${dominio}my/notifications#`) {
     // Alterar o título principal
-    jq('.page-title h1').each(function() {
-        const originalText = jq(this).text();
-        const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
-        jq(this).text(updatedText);
+    jq('.page-title h1').each(function () {
+      const originalText = jq(this).text();
+      const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+      jq(this).text(updatedText);
     });
     // Alterar o botão "Nova notificação"
-    jq('.btn-new-notification span').each(function() {
-        const originalText = jq(this).text();
-        const updatedText = originalText.replace(/notificação/g, 'mensagem');
-        jq(this).text(updatedText);
-    });
-        // Selecionar o botão "Enviar notificação" dentro do modal-footer e alterar o texto
-    jq('#LkSend').each(function() {
-        const originalText = jq(this).text();
-        const updatedText = originalText.replace(/Enviar notificação/g, 'Enviar mensagem');
-        jq(this).text(updatedText);
-    });
-        // Alterar o título "Notificação" para "Mensagem" no modal-header
-    jq('.modal-header.bg-white h1').each(function() {
-        const originalText = jq(this).text();
-        const updatedText = originalText.replace(/Notificação/g, 'Mensagem');
-        jq(this).text(updatedText);
+    jq('.btn-new-notification span').each(function () {
+      const originalText = jq(this).text();
+      const updatedText = originalText.replace(/notificação/g, 'mensagem');
+      jq(this).text(updatedText);
     });
   }
 
@@ -48,101 +37,63 @@ jq(document).ready(function () {
   const observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       if (mutation.type === 'childList') {
-        // Verifica se algum novo nó adicionado contém .card-title
-        jq(mutation.addedNodes).find('.card-title').each(function () {
-          if (jq(this).text().startsWith('[Atendimento]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/89/89719.png",
-              alt: "Atendimento",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
+
+        switch (page) {
+          case `${dominio}my/notifications#`:
+            // Selecionar o botão "Enviar notificação" dentro do modal-footer e alterar o texto
+            jq('#LkSend').each(function () {
+              const originalText = jq(this).text();
+              const updatedText = originalText.replace(/Enviar notificação/g, 'Enviar mensagem');
+              jq(this).text(updatedText);
             });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[BI]')) {
-            var icon = jq('<img>', {
-              src: "https://img.icons8.com/?size=512&id=03aYi0fY0D9X&format=png",
-              alt: "BI",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
+            // Alterar o título "Notificação" para "Mensagem" no modal-header
+            jq('.modal-header.bg-white h1').each(function () {
+              const originalText = jq(this).text();
+              const updatedText = originalText.replace(/Notificação/g, 'Mensagem');
+              jq(this).text(updatedText);
             });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Operações]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/995/995320.png",
-              alt: "Operações",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
+            break;
+          case `${dominio}my/services`:
+            const iconMap = {
+              '[Atendimento]': "https://cdn-icons-png.flaticon.com/512/89/89719.png",
+              '[BI]': "https://img.icons8.com/?size=512&id=03aYi0fY0D9X&format=png",
+              '[Operações]': "https://cdn-icons-png.flaticon.com/512/995/995320.png",
+              '[P&C]': "https://cdn-icons-png.flaticon.com/512/2688/2688387.png",
+              '[Comercial]': "https://cdn-icons-png.flaticon.com/512/2104/2104014.png",
+              '[Recursos Humanos]': "https://cdn-icons-png.flaticon.com/512/271/271332.png",
+              '[Departamento Pessoal]': "https://cdn-icons-png.flaticon.com/512/1642/1642054.png",
+              '[Fiscal]': "https://cdn-icons-png.flaticon.com/512/3358/3358993.png",
+              '[Financeiro]': "https://cdn-icons-png.flaticon.com/512/2543/2543363.png",
+              '[Jurídico]': "https://cdn-icons-png.flaticon.com/512/1130/1130019.png",
+              '[TI]': "https://cdn-icons-png.flaticon.com/512/897/897219.png",
+              '[Cobrança]': "https://cdn-icons-png.flaticon.com/512/6328/6328321.png",
+              '[TOTVS]': "https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png"
+            };
+    
+            // Itera sobre os nós adicionados e verifica se possuem o .card-title
+            jq(mutation.addedNodes).find('.card-title').each(function () {
+              const text = jq(this).text();
+    
+              // Verifica se algum prefixo do mapeamento corresponde ao início do texto
+              for (const [prefix, iconSrc] of Object.entries(iconMap)) {
+                if (text.startsWith(prefix)) {
+                  // Cria e insere o ícone correspondente
+                  const icon = jq('<img>', {
+                    src: iconSrc,
+                    alt: prefix.replace('[', '').replace(']', ''),
+                    style: "width: 32px; height: 32px; margin-right: 10px;"
+                  });
+                  jq(this).prepend(icon);
+                  break; // Sai do loop após encontrar o ícone correspondente
+                }
+              }
             });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[P&C]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/2688/2688387.png",
-              alt: "P&C",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Comercial]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/2104/2104014.png",
-              alt: "Comercial",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Recursos Humanos]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/271/271332.png",
-              alt: "Recursos Humanos",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Departamento Pessoal]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/1642/1642054.png",
-              alt: "Departamento Pessoal",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Fiscal]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/3358/3358993.png",
-              alt: "Fiscal",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Financeiro]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/2543/2543363.png",
-              alt: "Financeiro",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Jurídico]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/1130/1130019.png",
-              alt: "Jurídico",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[TI]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/897/897219.png",
-              alt: "TI",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[Cobrança]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn-icons-png.flaticon.com/512/6328/6328321.png",
-              alt: "Cobrança",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          } else if (jq(this).text().startsWith('[TOTVS]')) {
-            var icon = jq('<img>', {
-              src: "https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png",
-              alt: "TOTVS",
-              style: "width: 32px; height: 32px; margin-right: 10px;"
-            });
-            jq(this).prepend(icon);
-          }
-        });
+    
+            jq('.fav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/6pBZmRFz/coracao-4.png" alt="Ícone de favorito">');
+            jq('.unfav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/2jHg6F7L/coracao-3.png" alt="Ícone de favorito">');
+            break;
+        }
+
       }
     });
   });
@@ -153,13 +104,13 @@ jq(document).ready(function () {
     subtree: true    // Monitorar alterações em todos os níveis do DOM
   });
 
-  if (window.location.href === "https://raizeducacao.zeev.it/my/services") {
+  if (page === `${dominio}my/services`) {
     verificaAtrasos();
   } else {
     console.log("A URL da página não corresponde à esperada.");
   }
-  
-  
+
+
   ocultaCancelar();
 });
 
@@ -172,7 +123,7 @@ async function verificaAtrasos() {
     return;
   }
 
-  const url = "https://raizeducacao.zeev.it/api/internal/bpms/1.0/assignments?pagenumber=1&simulation=N&codreport=6x6Iw2g5qn7z%252Bt743f1Lbg%253D%253D&reporttype=mytasks&codflowexecute=&=&codtask=&taskstatus=S&field=&operator=Equal&fieldvaluetext=&fielddatasource=&fieldvalue=&requester=&codrequester=&=&tasklate=Late&startbegin=&startend=&sortfield=&sortdirection=ASC&keyword=&chkReload=on";
+  const url = `${dominio}api/internal/bpms/1.0/assignments?pagenumber=1&simulation=N&codreport=6x6Iw2g5qn7z%252Bt743f1Lbg%253D%253D&reporttype=mytasks&codflowexecute=&=&codtask=&taskstatus=S&field=&operator=Equal&fieldvaluetext=&fielddatasource=&fieldvalue=&requester=&codrequester=&=&tasklate=Late&startbegin=&startend=&sortfield=&sortdirection=ASC&keyword=&chkReload=on`;
 
   const headers = {
     "Accept": "*/*",
