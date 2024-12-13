@@ -94,11 +94,11 @@ jq(document).ready(function () {
   observer.observe(document.body, { childList: true, subtree: true });
 
   if (page === `${dominio}my/services`) {
-    verificaAtrasos();
+    verificaAtrasos(dominio);
   }
 });
 
-async function verificaAtrasos() {
+async function verificaAtrasos(dominio) {
   const tokenElement = jq('input[name="__RequestVerificationToken"]');
   const token = tokenElement.length ? tokenElement.val() : null;
 
