@@ -13,17 +13,52 @@ jq(document).ready(function () {
 
   jq(`a[href="${dominio}my/notifications"] .notification-count`).removeClass('d-none');
 
-  if (page === `${dominio}my/notifications` || page === `${dominio}my/notifications#`) {
-    jq('.page-title h1').each(function () {
-      const originalText = jq(this).text();
-      const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
-      jq(this).text(updatedText);
-    });
-    jq('.btn-new-notification span').each(function () {
-      const originalText = jq(this).text();
-      const updatedText = originalText.replace(/notificação/g, 'mensagem');
-      jq(this).text(updatedText);
-    });
+  // if (page === `${dominio}my/notifications` || page === `${dominio}my/notifications#`) {
+  //   jq('.page-title h1').each(function () {
+  //     const originalText = jq(this).text();
+  //     const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+  //     jq(this).text(updatedText);
+  //   });
+  //   jq('.btn-new-notification span').each(function () {
+  //     const originalText = jq(this).text();
+  //     const updatedText = originalText.replace(/notificação/g, 'mensagem');
+  //     jq(this).text(updatedText);
+  //   });
+  // }
+  
+  switch(page){
+    case `${dominio}my/notifications`:
+      jq('.page-title h1').each(function () {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+        jq(this).text(updatedText);
+      });
+      jq('.btn-new-notification span').each(function () {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/notificação/g, 'mensagem');
+        jq(this).text(updatedText);
+      });
+      break;
+    case `${dominio}my/notifications#`:
+      jq('.page-title h1').each(function () {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
+        jq(this).text(updatedText);
+      });
+      jq('.btn-new-notification span').each(function () {
+        const originalText = jq(this).text();
+        const updatedText = originalText.replace(/notificação/g, 'mensagem');
+        jq(this).text(updatedText);
+      });
+      break;
+    case `${dominio}my/tasks`:
+      jq("#containerReport tr").each(function () {
+        jq(this).find("td:first").removeClass("d-none");
+      });
+      break;
+    case `${dominio}my/services`:
+      verificaAtrasos(dominio);
+      break;
   }
 
   jq('#aHeaderMenuHomeName').text('Ticket Raiz');
@@ -84,6 +119,11 @@ jq(document).ready(function () {
             jq('.fav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/KzWHSJL9/coracao.png" alt="Ícone de favorito">');
             jq('.unfav').html('<img class="ico-no-favorite ico-md" src="https://i.postimg.cc/2jHg6F7L/coracao-3.png" alt="Ícone de favorito">');
             break;
+          case `${dominio}my/tasks`:
+            jq("#containerReport tr").each(function () {
+              jq(this).find("td:first").removeClass("d-none");
+            });
+            break;
         }
       }
     });
@@ -92,10 +132,6 @@ jq(document).ready(function () {
   });
 
   observer.observe(document.body, { childList: true, subtree: true });
-
-  if (page === `${dominio}my/services`) {
-    verificaAtrasos(dominio);
-  }
 });
 
 async function verificaAtrasos(dominio) {
