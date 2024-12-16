@@ -55,6 +55,12 @@ jq(document).ready(function () {
       jq("#containerReport tr").each(function () {
         jq(this).find("td:first").removeClass("d-none");
       });
+
+      jq(window).on("resize", function () {
+        applyDNoneForMobile();
+      });
+      
+      applyDNoneForMobile();
       break;
     case `${dominio}my/services`:
       verificaAtrasos(dominio);
@@ -123,6 +129,8 @@ jq(document).ready(function () {
             jq("#containerReport tr").each(function () {
               jq(this).find("td:first").removeClass("d-none");
             });
+
+            applyDNoneForMobile()
             break;
         }
       }
@@ -133,6 +141,18 @@ jq(document).ready(function () {
 
   observer.observe(document.body, { childList: true, subtree: true });
 });
+
+function applyDNoneForMobile() {
+  if (window.innerWidth <= 768) { // Verifica se é um dispositivo móvel (largura menor ou igual a 768px)
+      jq("#containerReport tr").each(function () {
+          jq(this).find("small").addClass("d-none"); // Adiciona a classe d-none ao elemento <small>
+      });
+  } else {
+      jq("#containerReport tr").each(function () {
+          jq(this).find("small").removeClass("d-none"); // Remove a classe d-none ao elemento <small> se não for mobile
+      });
+  }
+}
 
 async function verificaAtrasos(dominio) {
   const tokenElement = jq('input[name="__RequestVerificationToken"]');
