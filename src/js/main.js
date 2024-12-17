@@ -12,19 +12,6 @@ jq(document).ready(function () {
   });
 
   jq(`a[href="${dominio}my/notifications"] .notification-count`).removeClass('d-none');
-
-  // if (page === `${dominio}my/notifications` || page === `${dominio}my/notifications#`) {
-  //   jq('.page-title h1').each(function () {
-  //     const originalText = jq(this).text();
-  //     const updatedText = originalText.replace(/Notificações/g, 'Mensagens');
-  //     jq(this).text(updatedText);
-  //   });
-  //   jq('.btn-new-notification span').each(function () {
-  //     const originalText = jq(this).text();
-  //     const updatedText = originalText.replace(/notificação/g, 'mensagem');
-  //     jq(this).text(updatedText);
-  //   });
-  // }
   
   switch(page){
     case `${dominio}my/notifications`:
@@ -61,6 +48,13 @@ jq(document).ready(function () {
       });
       
       applyDNoneForMobile();
+
+      if($('#userEmail').val() == 'antonio.silva@raizeducacao.com.br'){
+        var selectedNumbers = []; // Array para armazenar números dos checkboxes selecionados
+        const tableContainer = jq("#containerReport"); // Seletor jQuery para o container da tabela
+        attachEventHandlers(selectedNumbers);
+      }
+
       break;
     case `${dominio}my/services`:
       verificaAtrasos(dominio);
@@ -82,6 +76,7 @@ jq(document).ready(function () {
               const updatedText = originalText.replace(/Enviar notificação/g, 'Enviar mensagem');
               jq(this).text(updatedText);
             });
+            
             // Alterar o título "Notificação" para "Mensagem" no modal-header
             jq('.modal-header.bg-white h1').each(function () {
               const originalText = jq(this).text();
@@ -89,6 +84,7 @@ jq(document).ready(function () {
               jq(this).text(updatedText);
             });
             break;
+
           case `${dominio}my/services`:
             jq(mutation.addedNodes).find('.card-title').each(function () {
               const text = jq(this).text();
@@ -131,6 +127,8 @@ jq(document).ready(function () {
             });
 
             applyDNoneForMobile()
+            const tableContainer = jq("#containerReport"); // Seletor jQuery para o container da tabela
+            attachEventHandlers(selectedNumbers);
             break;
         }
       }
@@ -141,6 +139,93 @@ jq(document).ready(function () {
 
   observer.observe(document.body, { childList: true, subtree: true });
 });
+
+
+function attachEventHandlers(selectedNumbers) {
+  // Removendo eventos anteriores para evitar duplicações
+  jq(".task-check-action").off("change").on("change", function () {
+
+      // Percorre todos os checkboxes selecionados e armazena os números
+      jq(".task-check-action:checked").each(function () {
+          let row = jq(this).closest("tr");
+          let number = row.find("td:nth-child(2) .badge").text().trim();
+          selectedNumbers.push(number);
+      });
+
+      // Remove a linha de ação anterior
+      jq(".new-action-row").remove();
+
+      // Se mais de um checkbox estiver marcado, insere uma nova linha
+      if (selectedNumbers.length > 1) {
+        jq(".task-check-action").each(function () {
+          let row = jq(this).closest("tr");
+          let number = row.find("td:nth-child(2) .badge").text().trim();
+          if (selectedNumbers.includes(number)) {
+              jq(this).prop("checked", true); // Remarca o checkbox
+          }
+      })
+          addActionRow();
+      }
+  });
+
+}
+
+function chkReload(selectedNumbers){
+  if(selectedNumbers.length > 1) {
+      // Função para remarcar os checkboxes após reload
+      jq(".task-check-action").each(function () {
+          let row = jq(this).closest("tr");
+          let number = row.find("td:nth-child(2) .badge").text().trim();
+          if (selectedNumbers.includes(number)) {
+              jq(this).prop("checked", true); // Remarca o checkbox
+          }
+      })
+
+      addActionRow()
+  }
+      
+}
+
+// Função para adicionar a nova linha com o botão
+function addActionRow() {
+  let newRow = `
+      <tr class="new-action-row">
+          <td colspan="7">
+              <div class="box p-3 bg-light">
+                  <div class="input-group">
+                      <button type="button" id="btnApproveTasks" class="btn btn-success ml-3" style="width: 33%;">
+                          Aprovar Tarefas
+                      </button>
+                  </div>
+              </div>
+          </td>
+      </tr>
+  `;
+  jq("#containerReport tr:last").after(newRow);
+
+  // Evento para o botão de aprovação
+  jq("#btnApproveTasks").off("click").on("click", function () {
+      approveTasks(selectedNumbers);
+  });
+}
+
+// Função para aprovar tarefas via API
+function approveTasks(taskNumbers) {
+  taskNumbers.forEach(taskNumber => {
+      jq.ajax({
+          url: "/api/aprovarTarefa", // Substitua com a URL da sua API
+          method: "POST",
+          data: { taskId: taskNumber },
+          success: function (response) {
+              console.log(`Tarefa ${taskNumber} aprovada com sucesso!`, response);
+          },
+          error: function (error) {
+              console.error(`Erro ao aprovar tarefa ${taskNumber}:`, error);
+          }
+      });
+  });
+  alert("Solicitações de aprovação enviadas!");
+}
 
 function applyDNoneForMobile() {
   if (window.innerWidth <= 768) { // Verifica se é um dispositivo móvel (largura menor ou igual a 768px)
