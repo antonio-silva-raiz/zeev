@@ -1,4 +1,7 @@
 jq(document).ready(function () {
+  if(jq("#userPersona").val() == "PowerUser"){
+    $("#LkDelete").hide();
+  }
   const dominio = 'https://raizeducacao.zeev.it/';
   var page = window.location.href;
 
