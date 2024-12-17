@@ -49,7 +49,7 @@ jq(document).ready(function () {
       
       applyDNoneForMobile();
 
-      if($('#userEmail').val() == 'antonio.silva@raizeducacao.com.br'){
+      if(jq('#userEmail').val() == 'antonio.silva@raizeducacao.com.br'){
         var selectedNumbers = []; // Array para armazenar números dos checkboxes selecionados
         const tableContainer = jq("#containerReport"); // Seletor jQuery para o container da tabela
         attachEventHandlers(selectedNumbers);
