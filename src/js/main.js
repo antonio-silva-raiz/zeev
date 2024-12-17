@@ -1,7 +1,5 @@
 jq(document).ready(function () {
-  if(jq("#userPersona").val() != "PowerUser"){
-    jq("#LkDelete").hide();
-  }
+  
   const dominio = 'https://raizeducacao.zeev.it/';
   var page = window.location.href;
 
@@ -71,6 +69,11 @@ jq(document).ready(function () {
 
     mutations.forEach(function (mutation) {
       if (mutation.type === 'childList') {
+
+        if(jq("#userPersona").val() != "PowerUser"){
+          jq("#LkDelete").hide();
+        }
+        
         switch (page) {
           case `${dominio}my/notifications#`:
             // Selecionar o botão "Enviar notificação" dentro do modal-footer e alterar o texto
