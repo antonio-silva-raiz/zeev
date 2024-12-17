@@ -65,15 +65,16 @@ jq(document).ready(function () {
   jq('#aHeaderMenuHomeName').text('Ticket Raiz');
 
   const observer = new MutationObserver(function (mutations, observerInstance) {
+
+    if(jq("#userPersona").val() != "PowerUser"){
+      jq("#LkDelete").hide();
+    }
+    
     observerInstance.disconnect(); // Pausa o observer para evitar loops
 
     mutations.forEach(function (mutation) {
       if (mutation.type === 'childList') {
-
-        if(jq("#userPersona").val() != "PowerUser"){
-          jq("#LkDelete").hide();
-        }
-        
+    
         switch (page) {
           case `${dominio}my/notifications#`:
             // Selecionar o botão "Enviar notificação" dentro do modal-footer e alterar o texto
