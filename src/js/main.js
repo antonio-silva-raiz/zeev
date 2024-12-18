@@ -107,7 +107,7 @@ jq(document).ready(function () {
                 '[Fiscal]': "https://i.postimg.cc/xdb047g5/livre-de-impostos-1.png",
                 '[Financeiro]': "https://i.postimg.cc/wMR3cvZq/salvando.png",
                 '[Jurídico]': "https://i.postimg.cc/Z584S36t/juridico-1.png",
-                '[TI]': "https://i.postimg.cc/P5tFC8Bk/cobranca.png",
+                '[TI]': "https://i.postimg.cc/qR9cVgPY/tecnologia.png",
                 '[Cobrança]': "https://i.postimg.cc/P5tFC8Bk/cobranca.png",
                 '[TOTVS]': "https://i.postimg.cc/kMRrCKd1/totvs-icon-131953.png",
                 '[Performance]':"https://i.postimg.cc/Pxq6SsdV/velocimetro.png"
