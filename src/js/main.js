@@ -97,19 +97,20 @@ jq(document).ready(function () {
               const text = jq(this).text();
 
               const iconMap = {
-                '[Atendimento]': "https://cdn-icons-png.flaticon.com/512/89/89719.png",
-                '[BI]': "https://img.icons8.com/?size=512&id=03aYi0fY0D9X&format=png",
-                '[Operações]': "https://cdn-icons-png.flaticon.com/512/995/995320.png",
-                '[P&C]': "https://cdn-icons-png.flaticon.com/512/2688/2688387.png",
-                '[Comercial]': "https://cdn-icons-png.flaticon.com/512/2104/2104014.png",
-                '[Recursos Humanos]': "https://cdn-icons-png.flaticon.com/512/271/271332.png",
-                '[Departamento Pessoal]': "https://cdn-icons-png.flaticon.com/512/1642/1642054.png",
-                '[Fiscal]': "https://cdn-icons-png.flaticon.com/512/3358/3358993.png",
-                '[Financeiro]': "https://cdn-icons-png.flaticon.com/512/2543/2543363.png",
-                '[Jurídico]': "https://cdn-icons-png.flaticon.com/512/1130/1130019.png",
-                '[TI]': "https://cdn-icons-png.flaticon.com/512/897/897219.png",
-                '[Cobrança]': "https://cdn-icons-png.flaticon.com/512/6328/6328321.png",
-                '[TOTVS]': "https://cdn.icon-icons.com/icons2/2148/PNG/512/totvs_icon_131953.png"
+                '[Atendimento]': "https://i.postimg.cc/t4pSfV5M/servico-de-atendimento-ao-consumidor.png",
+                '[BI]': "https://i.postimg.cc/zXn20knh/business-intelligence.png",
+                '[Operações]': "https://i.postimg.cc/13BCZ575/mechanical.png",
+                '[P&C]': "https://i.postimg.cc/KzNCqDXQ/recursos-humanos.png",
+                '[Comercial]': "https://i.postimg.cc/kXZzp5Zr/carrinho.png",
+                '[Recursos Humanos]': "https://i.postimg.cc/KzNCqDXQ/recursos-humanos.png",
+                '[Departamento Pessoal]': "https://i.postimg.cc/L6bFFDJb/estrutura-de-organizacao.png",
+                '[Fiscal]': "https://i.postimg.cc/xdb047g5/livre-de-impostos-1.png",
+                '[Financeiro]': "https://i.postimg.cc/wMR3cvZq/salvando.png",
+                '[Jurídico]': "https://i.postimg.cc/Z584S36t/juridico-1.png",
+                '[TI]': "https://i.postimg.cc/P5tFC8Bk/cobranca.png",
+                '[Cobrança]': "https://i.postimg.cc/P5tFC8Bk/cobranca.png",
+                '[TOTVS]': "https://i.postimg.cc/kMRrCKd1/totvs-icon-131953.png",
+                '[Performance]':"https://i.postimg.cc/Pxq6SsdV/velocimetro.png"
               };
 
               for (const [prefix, iconSrc] of Object.entries(iconMap)) {
